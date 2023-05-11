@@ -3,35 +3,69 @@ module.exports = {
     browser: true,
     es2021: true,
     node: true,
-    jest: true,
   },
-  settings: {
-    react: {
-    version: "detect"
-  },
-},
   extends: [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended"
+    'airbnb',
+    'airbnb-typescript',
+    'airbnb/hooks',
+    'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
+    'plugin:testing-library/react',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaFeatures: {
-      jsx: true
-    },
-    ecmaVersion: 11,
-    sourceType: "module"
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    project: './tsconfig.json',
   },
-  plugins: ["react", "react-hooks", "@typescript-eslint"],
+  plugins: ['react', '@typescript-eslint', 'prettier', 'simple-import-sort'],
   rules: {
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
-    "react/prop-types": "off",
-    "react/react-in-jsx-scope": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/no-explicit-any": "off"
+    'import/prefer-default-export': 'off',
+    'simple-import-sort/imports': 'error',
+    'simple-import-sort/exports': 'error',
+    'import/first': 'error',
+    'import/newline-after-import': 'error',
+    'import/no-duplicates': 'error',
+    'import/no-extraneous-dependencies': [
+      'error',
+      {
+        devDependencies: ['**/*.test.*'],
+        peerDependencies: true,
+      },
+    ],
+    'react/function-component-definition': 'off',
+    'react/jsx-props-no-spreading': 'off',
+    'react/require-default-props': 'off',
+    'react/jsx-no-bind': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
+    'no-console': ['warn', { allow: ['error'] }],
   },
+  overrides: [
+    {
+      files: ['**/*.js', '**/*.ts', '**/*.tsx'],
+      rules: {
+        'simple-import-sort/imports': [
+          'error',
+          {
+            groups: [
+              // Side effect imports
+              ['^\\u0000'],
+              // `react` first, then packages starting with a character
+              ['^react', '^@[a-z]', '^[a-z]'],
+              // RTL packages
+              ['^@testing-library'],
+              ['^~/[a-z]'],
+              // Imports starting with `../`
+              ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
+              // Imports starting with `./`
+              ['^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$'],
+              // Style imports
+              ['^.+\\.s?css$'],
+            ],
+          },
+        ],
+      },
+    },
+  ],
 };
