@@ -52,17 +52,6 @@
       "last 1 safari version"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "src/**/*": [
-      "yarn lint --fix",
-      "yarn test --findRelatedTests --bail"
-    ]
-  },
   "devDependencies": {
     "@types/react-router-dom": "^5.3.3",
     "eslint": "^8.40.0",
