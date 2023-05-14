@@ -27,13 +27,6 @@ module.exports = {
     'import/first': 'error',
     'import/newline-after-import': 'error',
     'import/no-duplicates': 'error',
-    'import/no-extraneous-dependencies': [
-      'error',
-      {
-        devDependencies: ['**/*.test.*'],
-        peerDependencies: true,
-      },
-    ],
     'react/function-component-definition': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/require-default-props': 'off',
