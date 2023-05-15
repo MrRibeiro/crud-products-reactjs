@@ -37,6 +37,8 @@ yarn build
 - `yarn lint`: Executa o linter em todos os componentes e páginas
 - `yarn test`: Executa jest para testar todos os componentes e páginas
 
+## Technologies
+
 - [ReactJs](https://legacy.reactjs.org/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Eslint](https://eslint.org/)
