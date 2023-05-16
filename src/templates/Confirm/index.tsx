@@ -23,7 +23,7 @@ const Template = () => {
     setValue,
     register,
     control,
-    formState: { errors, isDirty },
+    formState: { errors },
   } = useForm<User>({ defaultValues: registerUser! });
 
   const onSubmit: SubmitHandler<User> = (data) => {
@@ -197,7 +197,6 @@ const Template = () => {
             type="submit"
             color="primary"
             variant="contained"
-            disabled={!isDirty}
             sx={{ width: "100%" }}
           >
             Confirmar

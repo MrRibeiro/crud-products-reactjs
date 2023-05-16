@@ -152,7 +152,11 @@ const Template = () => {
                       >
                         <Visibility />
                       </Button>
-                      <Button variant="outlined" color="secondary">
+                      <Button
+                        variant="outlined"
+                        color="secondary"
+                        onClick={() => navigate(`/product/${item.id}`)}
+                      >
                         <Edit />
                       </Button>
                     </TableCell>

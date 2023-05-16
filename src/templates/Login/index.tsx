@@ -18,7 +18,7 @@ const Template = () => {
   const {
     handleSubmit,
     control,
-    formState: { errors, isDirty },
+    formState: { errors },
   } = useForm<LoginProps>();
   const { Login, hasError } = useAuth();
   const onSubmit: SubmitHandler<LoginProps> = (data) => Login(data);
@@ -108,7 +108,6 @@ const Template = () => {
             type="submit"
             color="primary"
             variant="contained"
-            disabled={!isDirty}
             sx={{ width: "100%", marginBottom: "24px" }}
           >
             Entrar

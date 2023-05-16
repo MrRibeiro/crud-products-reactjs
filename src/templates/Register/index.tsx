@@ -30,7 +30,7 @@ const Template = () => {
   const {
     handleSubmit,
     control,
-    formState: { errors, isDirty },
+    formState: { errors },
   } = useForm<User>();
 
   const onSubmit: SubmitHandler<User> = (data) => {
@@ -233,7 +233,6 @@ const Template = () => {
             type="submit"
             color="primary"
             variant="contained"
-            disabled={!isDirty}
             sx={{ width: "100%" }}
           >
             Avançar

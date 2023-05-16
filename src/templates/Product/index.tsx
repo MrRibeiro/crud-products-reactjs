@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+/* eslint-disable @typescript-eslint/naming-convention */
+import React, { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 import { Box, Button, FormControl, Typography } from "@mui/material";
 import { AxiosError } from "axios";
 
 import AlertCustom from "../../components/Alert";
 import Input from "../../components/Input";
-import { newProduct } from "../../services/product";
+import { getProduct, newProduct, updateProduct } from "../../services/product";
 import { Product } from "../../types/product";
 
 import { BoxStyled, Container } from "./styles";
@@ -15,14 +17,32 @@ const Template = () => {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [hasSuccess, setHasSuccess] = useState<boolean>(false);
   const [successMessage, setSuccessMessage] = useState<string>("");
+  const [product, setProduct] = useState<Product | null>(null);
+
+  const { id } = useParams();
 
   const {
     handleSubmit,
+    setValue,
     control,
-    formState: { errors, isDirty },
-  } = useForm<Product>();
+    formState: { errors },
+  } = useForm<Product>({ defaultValues: product || undefined });
 
   const onSubmit: SubmitHandler<Product> = (data) => {
+    if (product && id) {
+      updateProduct(id, data)
+        .then(() => {
+          setHasSuccess(true);
+          setSuccessMessage("Produto atualizado com sucesso!");
+        })
+        .catch((error: AxiosError) => {
+          setHasError(true);
+          setErrorMessage(error.response?.data as string);
+        });
+
+      return;
+    }
+
     newProduct(data)
       .then(() => {
         setHasSuccess(true);
@@ -33,6 +53,30 @@ const Template = () => {
         setErrorMessage(error.response?.data as string);
       });
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (id) {
+        getProduct(id)
+          .then((response) => {
+            setProduct(response);
+            const { nome, marca, preco, qt_estoque, qt_vendas } = response;
+
+            setValue("nome", nome);
+            setValue("marca", marca);
+            setValue("preco", preco);
+            setValue("qt_estoque", qt_estoque);
+            setValue("qt_vendas", qt_vendas);
+          })
+          .catch((error: AxiosError) => {
+            setHasError(true);
+            setErrorMessage(error.response?.data as string);
+          });
+      }
+    };
+
+    fetchData();
+  }, [id, setValue]);
 
   return (
     <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -136,7 +180,7 @@ const Template = () => {
                       type="number"
                       label="Estoque"
                       width="100%"
-                      value={field.value}
+                      value={field.value || ""}
                       setValue={field.onChange}
                       error={errors.qt_estoque}
                       className="loginInputs"
@@ -149,7 +193,6 @@ const Template = () => {
                 type="submit"
                 color="primary"
                 variant="contained"
-                disabled={!isDirty}
                 sx={{ width: "100%" }}
               >
                 Cadastrar
