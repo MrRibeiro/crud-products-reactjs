@@ -61,7 +61,7 @@
     }
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx}": "yarn lint"
+    "src/**/*.{js,jsx,ts,tsx}": "yarn lint --fix"
   },
   "devDependencies": {
     "@types/react-input-mask": "^3.0.2",
